@@ -1,22 +1,10 @@
 ﻿namespace web_crawler;
 
-public class WebPageLinks
-{
-  public string Url { get; set; }
-  public List<WebPageLinks> LinkedPages { get; set; }
-
-  public WebPageLinks(string url)
-  {
-    Url = url;
-    LinkedPages = new List<WebPageLinks>();
-  }
-}
-
-public class WebCrawler
+public class DepthFirstWebCrawler
 {
   private readonly IWebsiteService websiteService;
 
-  public WebCrawler(IWebsiteService websiteService)
+  public DepthFirstWebCrawler(IWebsiteService websiteService)
   {
     this.websiteService = websiteService;
   }
