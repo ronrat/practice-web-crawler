@@ -25,23 +25,27 @@ public class WebCrawler
   {
     var url = websiteService.HomePageUrl();
     var visitedUrls = new HashSet<string>();
+    var visitedUrlsInOrder = new List<string>();
     visitedUrls.Add(url);
+    visitedUrlsInOrder.Add(url);
 
-    CrawlUrl(url, visitedUrls);
+    CrawlUrl(url, visitedUrls, visitedUrlsInOrder);
 
-    return visitedUrls;
+    return visitedUrlsInOrder;
   }
 
-  public void CrawlUrl(string url, HashSet<string> visitedUrls)
+  public void CrawlUrl(string url, HashSet<string> visitedUrls, List<string> visitedUrlsInOrder)
   {
-    var pageUrls = websiteService.GetLinksOnPage(url);
+    var pageHtml = websiteService.GetHtmlContent(url);
+    var pageUrls = websiteService.GetLinksOnPage(pageHtml);
 
     foreach (var linkedUrl in pageUrls)
     {
       if (visitedUrls.Contains(linkedUrl)) continue;
 
       visitedUrls.Add(linkedUrl);
-      CrawlUrl(linkedUrl, visitedUrls);
+      visitedUrlsInOrder.Add(linkedUrl);
+      CrawlUrl(linkedUrl, visitedUrls, visitedUrlsInOrder);
     }
   }
 }

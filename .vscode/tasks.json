@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/web-crawler/web-crawler.csproj",
+        "${workspaceFolder}/test/web-crawler-tests/web-crawler-tests.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/web-crawler/web-crawler.csproj",
+        "${workspaceFolder}/test/web-crawler-tests/web-crawler-tests.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/web-crawler/web-crawler.csproj"
+        "${workspaceFolder}/test/web-crawler-tests/web-crawler-tests.csproj"
       ],
       "problemMatcher": "$msCompile"
     }
