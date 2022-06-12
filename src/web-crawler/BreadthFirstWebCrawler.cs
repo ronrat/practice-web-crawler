@@ -11,29 +11,30 @@ public class BreadthFirstWebCrawler
 
   public IEnumerable<string> Crawl()
   {
-    var url = websiteService.HomePageUrl();
+    var homeUrl = websiteService.HomePageUrl();
     var visitedUrls = new HashSet<string>();
     var visitedUrlsInOrder = new List<string>();
-    visitedUrls.Add(url);
-    visitedUrlsInOrder.Add(url);
+    visitedUrls.Add(homeUrl);
+    visitedUrlsInOrder.Add(homeUrl);
 
-    CrawlUrl(url, visitedUrls, visitedUrlsInOrder);
+    var urlQueue = new Queue<string>();
+    urlQueue.Enqueue(homeUrl);
+
+    while (urlQueue.TryDequeue(out var url))
+    {
+      var pageHtml = websiteService.GetHtmlContent(url);
+      var pageUrls = websiteService.GetLinksOnPage(pageHtml);
+
+      foreach (var pageUrl in pageUrls)
+      {
+        if (visitedUrls.Contains(pageUrl)) continue;
+
+        visitedUrls.Add(pageUrl);
+        visitedUrlsInOrder.Add(pageUrl);
+        urlQueue.Enqueue(pageUrl);
+      }
+    }
 
     return visitedUrlsInOrder;
-  }
-
-  public void CrawlUrl(string url, HashSet<string> visitedUrls, List<string> visitedUrlsInOrder)
-  {
-    var pageHtml = websiteService.GetHtmlContent(url);
-    var pageUrls = websiteService.GetLinksOnPage(pageHtml);
-
-    foreach (var linkedUrl in pageUrls)
-    {
-      if (visitedUrls.Contains(linkedUrl)) continue;
-
-      visitedUrls.Add(linkedUrl);
-      visitedUrlsInOrder.Add(linkedUrl);
-      CrawlUrl(linkedUrl, visitedUrls, visitedUrlsInOrder);
-    }
   }
 }
